@@ -4,8 +4,9 @@ Get started with claude-code-plugin-demo in 5 minutes!
 
 ## Step 1: Install (30 seconds)
 
+**Option A: Install from GitHub (Recommended)**
 ```bash
-# In Claude Code, add the marketplace
+# In Claude Code, add the marketplace (this clones from GitHub)
 /plugin marketplace add yasun1/claude-code-plugin-demo
 
 # Install my-first-plugin
@@ -13,6 +14,22 @@ Get started with claude-code-plugin-demo in 5 minutes!
 
 # Restart Claude Code
 ```
+
+**Option B: Install from Local Directory**
+```bash
+# If you cloned the repository locally
+/plugin marketplace add /path/to/claude-code-plugin-demo
+
+# Install my-first-plugin
+/plugin install my-first-plugin@local-marketplace-name
+
+# Restart Claude Code
+```
+
+**What happens:**
+- The `username/repository` format tells Claude Code to clone from GitHub
+- Marketplace is cloned to `~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/`
+- Plugin is installed from the cloned marketplace
 
 ## Step 2: Test Commands (1 minute)
 
@@ -51,8 +68,17 @@ Run the refactor-master agent to refactor this code
 
 ### Install Dependencies
 
+**IMPORTANT:** Run `npm install` in the **marketplace clone directory**, not the installed plugin folder.
+
+**For GitHub installs:**
 ```bash
-cd /Users/ymsun/Documents/workspace/src/github.com/yasun1/claude-code-plugin-demo/my-first-plugin/mcp-server
+cd ~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/my-first-plugin/mcp-server
+npm install
+```
+
+**For local installs:**
+```bash
+cd /path/to/your/clone/claude-code-plugin-demo/my-first-plugin/mcp-server
 npm install
 ```
 
@@ -60,16 +86,34 @@ npm install
 
 Add to your `.claude/settings.json`:
 
+**For GitHub installs:**
 ```json
 {
   "mcpServers": {
     "my-first-plugin": {
       "command": "node",
-      "args": ["/Users/ymsun/Documents/workspace/src/github.com/yasun1/claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"]
+      "args": ["~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"]
     }
   }
 }
 ```
+
+**For local installs:**
+```json
+{
+  "mcpServers": {
+    "my-first-plugin": {
+      "command": "node",
+      "args": ["/path/to/your/clone/claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"]
+    }
+  }
+}
+```
+
+**💡 Key Points:**
+- MCP Server runs from the marketplace clone (where `node_modules` exists)
+- NOT from `~/.claude/plugins/` (which is just a reference copy)
+- Use the full absolute path in settings.json
 
 ### Test MCP Tools
 

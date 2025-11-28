@@ -18,10 +18,22 @@ This repository serves as both documentation and a working example of how to cre
 
 ### Install the Marketplace
 
+**Option 1: Install from GitHub (Recommended)**
 ```bash
-# In Claude Code
+# In Claude Code - this will clone the marketplace from GitHub
 /plugin marketplace add yasun1/claude-code-plugin-demo
 ```
+
+**Option 2: Install from Local Directory**
+```bash
+# If you've cloned the repository locally
+/plugin marketplace add /path/to/your/clone/claude-code-plugin-demo
+```
+
+**Note:**
+- The `username/repository` format tells Claude Code to clone from GitHub at `https://github.com/yasun1/claude-code-plugin-demo`
+- GitHub installs are cloned to `~/.claude/plugins/marketplaces/`
+- Local installs use the path you provide directly
 
 ### Install the Plugin
 
@@ -45,6 +57,69 @@ Use the code-reviewer skill to analyze this code
 # Launch an agent
 Run the bug-hunter agent to find bugs
 ```
+
+### Setup MCP Server (Optional)
+
+To use the MCP server tools, you need to:
+
+1. **Find your marketplace clone path:**
+
+   After installing from GitHub, the marketplace is cloned to:
+   ```bash
+   ~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/
+   ```
+
+   For local installs, it's the path you specified.
+
+2. **Install dependencies in the marketplace clone:**
+
+   **IMPORTANT:** Run `npm install` in the **marketplace clone**, not in the installed plugin folder.
+
+   ```bash
+   # For GitHub installs:
+   cd ~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/my-first-plugin/mcp-server
+   npm install
+
+   # For local installs:
+   cd /your/local/path/claude-code-plugin-demo/my-first-plugin/mcp-server
+   npm install
+   ```
+
+3. **Configure in `.claude/settings.json`:**
+
+   Use the **same marketplace clone path** in your configuration:
+
+   ```json
+   {
+     "mcpServers": {
+       "my-first-plugin": {
+         "command": "node",
+         "args": ["~/.claude/plugins/marketplaces/yasun1-claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"]
+       }
+     }
+   }
+   ```
+
+   **For local installs, use your local path:**
+   ```json
+   {
+     "mcpServers": {
+       "my-first-plugin": {
+         "command": "node",
+         "args": ["/your/local/path/claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"]
+       }
+     }
+   }
+   ```
+
+4. **Restart Claude Code**
+
+**Why use the marketplace clone path?**
+- MCP Server needs the `node_modules` folder created by `npm install`
+- The installed plugin folder (in `~/.claude/plugins/`) is just a reference copy
+- The marketplace clone is where you should run `npm install` and where MCP Server runs from
+
+For detailed setup instructions, see [QUICKSTART.md](QUICKSTART.md).
 
 ## What's Included
 
@@ -227,8 +302,18 @@ Add any combination of commands, skills, agents, hooks, or MCP servers to your p
 
 Push to GitHub and users can install with:
 ```bash
+# The username/repository format automatically clones from GitHub
 /plugin marketplace add github-username/repository-name
+
+# Alternative: use full Git URL
+/plugin marketplace add https://github.com/github-username/repository-name.git
 ```
+
+**How it works:**
+- Claude Code recognizes the `username/repository` format as a GitHub repository
+- Automatically clones from `https://github.com/username/repository`
+- Stores in `~/.claude/plugins/marketplaces/username-repository/`
+- Plugins are then installed from the cloned marketplace
 
 ## Best Practices
 
