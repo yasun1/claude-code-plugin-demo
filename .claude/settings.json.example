@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "preEdit": "my-first-plugin/hooks/pre-edit.sh",
+    "postWrite": "my-first-plugin/hooks/post-write.sh",
+    "userPromptSubmit": "my-first-plugin/hooks/user-prompt-submit.sh"
+  },
+  "mcpServers": {
+    "my-first-plugin": {
+      "command": "node",
+      "args": [
+        "/Users/ymsun/Documents/workspace/src/github.com/yasun1/claude-code-plugin-demo/my-first-plugin/mcp-server/index.js"
+      ]
+    }
+  }
+}

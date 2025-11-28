@@ -1,0 +1,9 @@
+{
+  "name": "my-first-plugin",
+  "version": "1.0.0",
+  "description": "A comprehensive demo plugin showcasing all Claude Code plugin types: commands, skills, agents, hooks, and MCP server integration",
+  "author": {
+    "name": "Demo Author",
+    "email": "demo@example.com"
+  }
+}

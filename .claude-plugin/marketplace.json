@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-plugin-demo",
+  "owner": {
+    "name": "Demo Author",
+    "email": "demo@example.com"
+  },
+  "plugins": [
+    {
+      "name": "my-first-plugin",
+      "source": "./my-first-plugin",
+      "description": "Complete demo plugin showcasing all Claude Code plugin types: commands, skills, agents, hooks, and MCP server"
+    }
+  ]
+}
